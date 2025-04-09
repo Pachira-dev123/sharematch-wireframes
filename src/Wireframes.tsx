@@ -17,17 +17,17 @@
 
     const outcomes: Outcomes = {
       football: [
-        { label: 'Arsenal', sell: 46.3, buy: 50.2 },
-        { label: 'Draw', sell: 26, buy: 28.7 },
-        { label: 'Real Madrid', sell: 25.4, buy: 27.9 },
+        { label: 'Arsenal', sell: 4.63, buy: 5.02 },
+        { label: 'Draw', sell: 2.60, buy: 2.87 },
+        { label: 'Real Madrid', sell: 2.54, buy: 2.79 },
       ],
       racing: [
-        { label: 'Alondra', sell: 32, buy: 36 },
-        { label: 'Radio Star', sell: 17, buy: 20 },
-        { label: 'Mwafaq', sell: 10, buy: 13 },
-        { label: 'Born Rossetti', sell: 10, buy: 13 },
-        { label: 'Memphisatmidnight', sell: 8, buy: 11 },
-        { label: 'Westgate Warrior', sell: 8, buy: 11 },
+        { label: 'Alondra', sell: 3.20, buy: 3.60 },
+        { label: 'Radio Star', sell: 1.70, buy: 2.00 },
+        { label: 'Mwafaq', sell: 1.00, buy: 1.30 },
+        { label: 'Born Rossetti', sell: 1.00, buy: 1.30 },
+        { label: 'Memphisatmidnight', sell:1.80, buy: 2.10 },
+        { label: 'Westgate Warrior', sell: 1.00, buy: 1.30 },
       ],
     };
 
@@ -41,54 +41,58 @@
       </div>
     );
 
-    interface BetslipProps {
+    // Renamed Betslip component
+    interface SharePurchaseConfirmationProps {
         event: string;
     }
 
-    const Betslip: React.FC<BetslipProps> = ({ event }) => (
-      <div className="p-4 bg-casal text-white">
-        <h3 className="font-bold mb-2">Betslip</h3>
-        <p>Selected: {event}</p>
-        <p>Stake: £X (calculated from %)</p>
-      </div>
-    );
+    const SharePurchaseConfirmation: React.FC<SharePurchaseConfirmationProps> = ({ event }) => (
+  <div className="p-4 bg-casal text-white mt-4 border-t border-elm-light">
+    <h3 className="font-bold mb-2">Share Purchase Confirmation</h3>
+    <p>Selected: {event}</p>
+    <p>Stake: £X (calculated from %)</p>
+  </div>
+);
 
     interface EventViewProps {
         title: string;
         selections: SelectionData[];
-        showBetslip: boolean;
+        showSharePurchaseConfirmation: boolean;
     }
 
-    const EventView: React.FC<EventViewProps> = ({ title, selections, showBetslip }) => (
-      <div className="bg-elm-dark text-white p-4 max-w-xl mx-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">{title}</h2>
-          <span className="text-sm text-white">Balance: £5,000</span>
-        </div>
-        {selections.map((s) => (
-          <Selection key={s.label} {...s} />
-        ))}
-        {showBetslip && <Betslip event={title} />}
-      </div>
-    );
+    const EventView: React.FC<EventViewProps> = ({ title, selections, showSharePurchaseConfirmation }) => (
+  <div className="bg-elm-dark text-white p-4 max-w-xl mx-auto border-b border-casal pb-2 mb-4">
+    <div className="flex justify-between items-center mb-4">
+      <h2 className="text-xl font-bold">{title}</h2>
+      <span className="text-sm text-white">Balance: £5,000</span>
+    </div>
+    {selections.map((s) => (
+      <Selection key={s.label} {...s} />
+    ))}
+    {showSharePurchaseConfirmation && <SharePurchaseConfirmation event={title} />}
+    <footer className="text-center text-xs text-gray-300 mt-4 pt-2 border-t border-casal">
+        All successful share purchases settle at £10.00
+    </footer>
+  </div>
+);
 
     const Wireframes: React.FC = () => (
-      <div className="flex flex-col gap-12 p-6 bg-elm-light min-h-screen">
+      <div className="flex flex-col gap-8 p-6 bg-elm-light min-h-screen">
         <h1 className="text-white text-2xl font-bold">ShareMatch Wireframes</h1>
 
         {/* Desktop Views */}
-        <EventView title="Arsenal vs Real Madrid" selections={outcomes.football} showBetslip={false} />
-        <EventView title="Arsenal vs Real Madrid" selections={outcomes.football} showBetslip={true} />
-        <EventView title="Horse Racing" selections={outcomes.racing} showBetslip={false} />
-        <EventView title="Horse Racing" selections={outcomes.racing} showBetslip={true} />
+        <EventView title="Arsenal vs Real Madrid" selections={outcomes.football} showSharePurchaseConfirmation={false} />
+        <EventView title="Arsenal vs Real Madrid" selections={outcomes.football} showSharePurchaseConfirmation={true} />
+        <EventView title="Horse Racing" selections={outcomes.racing} showSharePurchaseConfirmation={false} />
+        <EventView title="Horse Racing" selections={outcomes.racing} showSharePurchaseConfirmation={true} />
 
         {/* Mobile Views with same layout but styled for mobile */}
         {/* Note: Tailwind's max-w-xs is applied to the container, not individual EventViews for mobile simulation */}
-        <div className="max-w-xs mx-auto flex flex-col gap-12">
-            <EventView title="Mobile: Arsenal vs Real Madrid" selections={outcomes.football} showBetslip={false} />
-            <EventView title="Mobile: Arsenal vs Real Madrid (Betslip)" selections={outcomes.football} showBetslip={true} />
-            <EventView title="Mobile: Horse Racing" selections={outcomes.racing} showBetslip={false} />
-            <EventView title="Mobile: Horse Racing (Betslip)" selections={outcomes.racing} showBetslip={true} />
+        <div className="max-w-xs mx-auto flex flex-col gap-8">
+            <EventView title="Mobile: Arsenal vs Real Madrid" selections={outcomes.football} showSharePurchaseConfirmation={false} />
+            <EventView title="Mobile: Arsenal vs Real Madrid (Share Purchase Confirmation)" selections={outcomes.football} showSharePurchaseConfirmation={true} />
+            <EventView title="Mobile: Horse Racing" selections={outcomes.racing} showSharePurchaseConfirmation={false} />
+            <EventView title="Mobile: Horse Racing (Share Purchase Confirmation)" selections={outcomes.racing} showSharePurchaseConfirmation={true} />
         </div>
       </div>
     );
